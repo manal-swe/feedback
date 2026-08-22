@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(78, 205, 196, 0.14),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(100, 108, 255, 0.12),
+                    transparent 35%
+                ),
+                #050608;
+            color: white;
+            padding: 25px;
+        }
+
+        .feedback-container {
+            width: 100%;
+            max-width: 520px;
+            padding: 40px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            backdrop-filter: blur(15px);
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header span {
+            color: #4fa8a2;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 2.3rem;
+            margin: 10px 0;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 17px 16px;
+            background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 9px;
+            color: white;
+            outline: none;
+            font-size: 0.95rem;
+            transition: 0.4s ease;
+        }
+
+        .input-field:focus {
+            border-color: transparent;
+            background: #111820;
+            box-shadow:
+                0 0 0 2px #4ecdc4,
+                0 0 20px rgba(78,205,196,0.3);
+            transform: translateY(-2px);
+        }
+
+        .input-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.45);
+            pointer-events: none;
+            transition: 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label {
+            top: 0;
+            left: 12px;
+            padding: 0 6px;
+            transform: translateY(-50%);
+            font-size: 0.72rem;
+            color: #42918b;
+            background: #10161d;
+        }
+
+        .rating-section {
+            margin-bottom: 25px;
+        }
+
+        .rating-title {
+            display: block;
+            color: rgba(255,255,255,0.65);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .rating {
+            display: flex;
+            gap: 10px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .rating label:hover {
+            border-color: #43948e;
+            color: #3b9e97;
+            transform: translateY(-3px);
+        }
+
+        .rating input:checked + label {
+            background: #4ecdc4;
+            border-color: #4ecdc4;
+            color: #050608;
+            box-shadow:
+                0 0 15px rgba(78,205,196,0.35);
+        }
+
+        .message-group {
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            padding: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 9px;
+            color: white;
+            outline: none;
+            font-size: 0.95rem;
+            transition: 0.4s ease;
+        }
+
+        textarea::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        textarea:focus {
+            border-color: #3e928c;
+            background: #111820;
+            box-shadow:
+                0 0 20px rgba(78,205,196,0.25);
+        }
+        
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #4363aa,  #4ecdc4
+                );
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 25px rgba(78,205,196,0.25);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+    
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 550px) {
+            .feedback-container {
+                padding: 30px 22px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .rating {
+                justify-content: space-between;
+            }
+
+            .rating label {
+                width: 42px;
+                height: 42px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div class="feedback-container">
+        <div class="header">
+            <span>Feedback</span>
+            <h1>Share Your Feedback</h1>
+            <p>
+                Your feedback helps us improve the experience.
+            </p>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="name" class="input-field" placeholder=" " required>
+
+            <label for="name"  class="input-label">
+                Your Name
+            </label>
+        </div>
+
+        <div class="input-group">
+
+            <input type="email" id="email" class="input-field" placeholder=" "  required>
+
+            <label
+                for="email"
+                class="input-label"
+            >
+                Email Address
+            </label>
+
+        </div>
+
+        <div class="rating-section">
+
+            <span class="rating-title">
+                How would you rate your experience?
+            </span>
+
+
+            <div class="rating">
+
+                <input  type="radio"  id="rating1" name="rating">
+                <label for="rating1">  1 </label>
+                   
+                <input type="radio"   id="rating2" name="rating">
+                   
+                <label for="rating2">
+                    2
+                </label>
+
+
+                <input type="radio" id="rating3" name="rating">
+                <label for="rating3"> 3 </label>
+                    
+                <input type="radio" id="rating4" name="rating">
+
+                <label for="rating4"> 4</label>
+                <input type="radio" id="rating5" name="rating">
+    
+                <label for="rating5"> 5</label>
+
+            </div>
+        </div>
+
+        <div class="message-group">
+
+            <textarea
+                placeholder="Tell us what you think..."
+            ></textarea>
+
+        </div>
+
+        <button class="submit-button">
+            SUBMIT FEEDBACK
+        </button>
+
+        <div class="footer">
+            Thank you for taking the time to share your thoughts.
+        </div>
+    </div>
+</body>
+</html>
